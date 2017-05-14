@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tagged Templates</title>
+  <style>
+    abbr {
+      border-bottom: 1px dotted grey;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bio">
+
+  </div>
+
+  <script>
+    const dict = {
+      HTML: 'Hyper Text Markup Language',
+      CSS: 'Cascading Style Sheets',
+      JS: 'JavaScript'
+    };
+
+    function addStyle(strings, ...values) {
+      const styled = values.map(value => {
+        if (dict[value]) {
+          return `<abbr title='${dict[value]}'>${value}</abbr>`;
+        } else if (value == 'React') {
+          return `<strong>${value}</strong>`;
+        }
+        return value
+      });
+      return strings.reduce((sentence, string, i) => {
+        return sentence + string + (styled[i] || '');
+      }, '');
+    };
+
+    const first = 'Ruslan';
+    const last = 'Galbatsdibitov';
+    const introduction = addStyle `Hey, my name is ${first} ${last} and I can do ${'HTML'} + ${'CSS'} + ${'JS'} but also want to master ${'React'}`
+
+    console.log(introduction);
+
+    const wrapper = document.querySelector('.bio');
+    const p = document.createElement('p');
+    p.innerHTML = introduction;
+    wrapper.appendChild(p);
+  </script>
+</body>
+
+</html>
